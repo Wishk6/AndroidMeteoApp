@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">MeteoApp</string>
+    <string name="app_name">MeteoAppProject</string>
+    <string name="editTextEmail">Email</string>
+    <string name="editTextPassword">Password</string>
+    <string name="connexionButton">Login</string>
 </resources>
