@@ -1,4 +1,4 @@
-package com.example.meteoapp
+package com.example.meteoappproject
 
 import org.junit.Test
 
