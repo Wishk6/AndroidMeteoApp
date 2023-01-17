@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpFragment : Fragment() {
 
@@ -43,13 +44,20 @@ class SignUpFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val user = mAuth.currentUser
-                            (activity as MainActivity).onSignUpSuccess();
+
+                            if (user != null) {
+                                (activity as MainActivity).onSignUpSuccess(user)
+                            }
                         } else {
                             (activity as MainActivity).onSignUpFailed()
                         }
                     }
             }
         }
+
+
+
+
         return view
     }
 

@@ -22,10 +22,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onLoginSuccess(uid: FirebaseUser?) {
-        //TODO  Navigation vers la section suivante de l'application ou afficher un message de bienvenue
         Toast.makeText(this, "login success $uid", Toast.LENGTH_SHORT).show()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.liste_meteo_fragment, ListeMeteoFragment())
+        fragmentTransaction.replace(R.id.login_sign_in_fragment, WeatherListFragment())
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         toast.show()
     }
 
-    fun onSignUpSuccess() {
+    fun onSignUpSuccess(user: FirebaseUser) {
         Toast.makeText(this, "Sign Up success", Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
     }
