@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
             } else {
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        (activity as MainActivity).onLoginSuccess()
+                        (activity as MainActivity).onLoginSuccess(mAuth.currentUser)
                     } else {
                         (activity as MainActivity).onLoginFailed()
                     }
