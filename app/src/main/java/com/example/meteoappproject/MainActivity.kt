@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onLoginSuccess(uid: FirebaseUser?) {
-        // Navigation vers la section suivante de l'application ou afficher un message de bienvenue
+        //TODO  Navigation vers la section suivante de l'application ou afficher un message de bienvenue
         Toast.makeText(this, "login success $uid", Toast.LENGTH_SHORT).show()
     }
 
@@ -35,17 +35,14 @@ class MainActivity : AppCompatActivity() {
         toast.show()
     }
 
-    fun onSignUpSuccess(uid: String?) {
-        // Handle sign up success
-        // You can start a new activity, display a message, or do something else
-        Toast.makeText(this, "Hello $uid", Toast.LENGTH_SHORT).show();
-
+    fun onSignUpSuccess() {
+        Toast.makeText(this, "Sign Up success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     fun onSignUpFailed() {
-        // Handle sign up failure
-        // You can display an error message or do something else
         Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show()
+
     }
 
 }

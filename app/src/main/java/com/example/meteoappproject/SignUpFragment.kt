@@ -43,7 +43,7 @@ class SignUpFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val user = mAuth.currentUser
-                            (activity as MainActivity).onSignUpSuccess(user?.uid);
+                            (activity as MainActivity).onSignUpSuccess();
                         } else {
                             (activity as MainActivity).onSignUpFailed()
                         }
