@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="250dp"
+    android:background="#313030"
+    android:orientation="vertical"
+    android:layout_marginTop="70dp"
+    android:textColor="#FFFFFF">
+
+    <SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_searchview_fragment"
+        android:iconifiedByDefault="false"
+        android:queryHint="Rechercher..."
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
+        android:textColorHint="@color/white"
+        android:textColorLink="@color/white"
+
+        tools:ignore="InvalidId" >
+
+    </SearchView>
+
+    <ListView
+        android:id="@+id/search_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:cacheColorHint="#FFFFFF"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>
