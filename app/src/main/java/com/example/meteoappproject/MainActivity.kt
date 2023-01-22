@@ -1,8 +1,10 @@
 package com.example.meteoappproject
 
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseUser
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,14 +21,32 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    fun onLoginSuccess() {
-        // Navigation vers la section suivante de l'application ou afficher un message de bienvenue
-        Toast.makeText(this, "login success", Toast.LENGTH_SHORT).show()
+    fun onLoginSuccess(uid: FirebaseUser?) {
+        //TODO  Navigation vers la section suivante de l'application ou afficher un message de bienvenue
+        Toast.makeText(this, "login success $uid", Toast.LENGTH_SHORT).show()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.liste_meteo_fragment, ListeMeteoFragment())
+        fragmentTransaction.commit()
     }
 
     fun onLoginFailed() {
-        // Afficher un message d'erreur à l'utilisateur
-        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show()
+        val toast = Toast.makeText(
+            applicationContext,
+            "Login Failed", Toast.LENGTH_SHORT
+        )
+        toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 500)
+        toast.show()
     }
+
+    fun onSignUpSuccess() {
+        Toast.makeText(this, "Sign Up success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
+    }
+
+    fun onSignUpFailed() {
+        Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show()
+
+    }
+
 }
 
