@@ -33,11 +33,11 @@ class SignUpFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
         // check a l'init
-        checkLocationPermissions();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         email = view.findViewById(R.id.signup_email)
         password = view.findViewById(R.id.signup_password)
         signUpButton = view.findViewById(R.id.signup_button)
+        checkLocationPermissions();
 
         signUpButton.setOnClickListener {
             val emailText = email.text.toString()
@@ -75,7 +75,9 @@ class SignUpFragment : Fragment() {
             }
         } else {
             // Permission has already been granted
-            getLocation(emailText, passwordText)
+            if (emailText.isNotEmpty() && passwordText.isNotEmpty()) {
+                getLocation(emailText, passwordText)
+            }
         }
     }
 
@@ -108,7 +110,8 @@ class SignUpFragment : Fragment() {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 Toast.makeText(context, "Account created", Toast.LENGTH_SHORT).show()
-                (activity as MainActivity).onSignUpSuccess(location)
+//                (activity as MainActivity).onSignUpSuccess(location)
+                (activity as MainActivity).onSignUpSuccess()
             }.addOnFailureListener {
                 (activity as MainActivity).onSignUpFailed("Failed to create user: ${it.message}")
             }

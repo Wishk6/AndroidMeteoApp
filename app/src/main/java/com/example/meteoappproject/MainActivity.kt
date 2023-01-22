@@ -29,14 +29,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onLoginSuccess(uid: FirebaseUser?) {
-        Toast.makeText(this, "login success $uid", Toast.LENGTH_SHORT).show()
-
         // Faire un service pour les 'permissionsTcheck' dans un service pour pouvoir vérifier si l'utilisateur a toujours les permissions autorisés ou pas
         // faire un appel à MeteoDataService.getMeteoByCoord() pour récupérer la data de la position actuelle grâce a Location.
-
-
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.login_sign_in_fragment, WeatherListFragment())
+        fragmentTransaction.replace(R.id.login_sign_in_fragment, ListeMeteoFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
@@ -47,28 +43,22 @@ class MainActivity : AppCompatActivity() {
         toast.show()
     }
 
-    fun onSignUpSuccess(location: Location) {
-        Toast.makeText(this, "Sign Up success ${location.latitude}, ${location.longitude}", Toast.LENGTH_LONG).show()
+    fun onSignUpSuccess() {
 
-        Log.d("MainActivity", "onSignUpSuccess: ${location.latitude}, ${location.longitude}")
-        meteoService = MeteoDataService()
-        val actualPositionData = meteoService.getTemperature(location.latitude, location.longitude)
-
-        val meteoDataModel = MeteoDataModel(
-            actualPositionData.country,
-            actualPositionData.iconUrl,
-            actualPositionData.maxTemp,
-            actualPositionData.minTemp,
-            actualPositionData.name,
-            ""
-        )
-
-        Toast.makeText(this, "Sign Up success ${meteoDataModel.minTemp}, ${meteoDataModel.maxTemp} ", Toast.LENGTH_LONG).show()
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.login_sign_in_fragment, LoginFragment())
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+//     TODO :inutile pour l'instant : Dabord Régler Problème de coordonnées en convertissant
+//
+//        meteoService = MeteoDataService()
+//        val actualPositionData = meteoService.getTemperature(location.latitude, location.longitude)
+//
+//        val meteoDataModel = MeteoDataModel(
+//            actualPositionData.country,
+//            actualPositionData.iconUrl,
+//            actualPositionData.maxTemp,
+//            actualPositionData.minTemp,
+//            actualPositionData.name,
+//            ""
+//        )
+        super.onBackPressed()
     }
 
     fun onSignUpFailed(message: String) {

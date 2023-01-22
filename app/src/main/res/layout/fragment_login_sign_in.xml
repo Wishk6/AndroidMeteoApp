@@ -56,8 +56,7 @@
                 android:textColorLink="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"  />
 
             <EditText
                 android:id="@+id/password_field"
@@ -67,6 +66,7 @@
                 android:autofillHints="password"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:textColor="@color/white"
                 android:textColorHint="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
