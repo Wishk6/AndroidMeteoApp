@@ -23,4 +23,5 @@
     <string name="passwordSignUp">Password</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="usernameSignUp">Username</string>
+    <string name="meteo_radar">Meteo Radar</string>
 </resources>

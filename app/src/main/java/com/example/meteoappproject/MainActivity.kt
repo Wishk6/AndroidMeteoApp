@@ -3,6 +3,7 @@ package com.example.meteoappproject
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseUser
 
@@ -46,6 +47,20 @@ class MainActivity : AppCompatActivity() {
     fun onSignUpFailed() {
         Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmation")
+        builder.setMessage("Are you sure you want to log out?")
+        builder.setPositiveButton("Yes") { _, _ ->
+            // Code pour se déconnecter ici
+            super.onBackPressed()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
 }

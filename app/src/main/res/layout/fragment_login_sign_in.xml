@@ -22,11 +22,11 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="10dp"
             android:contentDescription="@string/logo_meteoscan"
             android:src="@drawable/logometeoapp"
-            app:layout_constraintBottom_toTopOf="@id/constraint_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,13 +39,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
             <EditText
                 android:id="@+id/email_field"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:autofillHints="emailAddress"
                 android:foregroundTint="@color/white"
                 android:hint="@string/email"
@@ -63,7 +63,7 @@
                 android:id="@+id/password_field"
                 android:layout_width="350dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:autofillHints="password"
                 android:hint="@string/password"
                 android:inputType="textPassword"
@@ -76,7 +76,7 @@
                 android:id="@+id/login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/loginButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                 android:id="@+id/signup_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/sign_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

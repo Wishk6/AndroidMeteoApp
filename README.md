@@ -12,7 +12,7 @@ Liste des fonctionnalités implémentées :
 <br>
 [X] Nombre d'activités ou fragment supérieur ou égal à 3
 <br>
-[ ] Gestion du bouton Back (message pour confirmer que l'on veut réellement quitter s'application)
+[X] Gestion du bouton Back (message pour confirmer que l'on veut réellement quitter s'application)
 <br>
 [ ] L'affichage d'une liste avec son adapter
 <br>
@@ -28,4 +28,6 @@ Liste des fonctionnalités implémentées :
 <br>
 [ ] Le codage d'un menu (contextuel ou non, utilisation d'un menu en resource XML)
 <br>
-[ ] L'application de pattern (Reactive programming, singleton, MVC,...) Liste :
+[X] L'application de pattern (Reactive programming, singleton, MVC,...) Liste :
+
+MVC (Les fragments sont les Vues, l'activité est le Controller unique et les modèles sont dans le package Models) 
