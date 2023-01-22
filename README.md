@@ -18,6 +18,7 @@ on pourrait également essayer de trouver comment convertir les coordonnées de 
 j'ai essayé plusieurs solutions.. )
 <br>
 <br>
+J'ai continué les commit juste après minuit désolé je voulais au moins qu'il y ait un commit pour le fonctionnement du thread
 ## Fonctionnalités
 
 [X] Utilisation de l'Api Preference
