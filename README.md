@@ -1,3 +1,12 @@
+Nous avons eu un problème avec l'api météo que nous utilisions et le systeme de coordonnées d'android 
+Les 2 systèmes n'utilisent apparement pas le même systeme pour les coordoonées. 
+J'obtiens par exemple '37.4219983, -122.084' avec LocationManager et  l'api météo me renvoie : 
+```text
+Please specify a latitude between 41.3 and 51.9 and a longitude between -5.2 and 10.7
+```
+je n'ai pas réussi à trouver une solution pour convertir les coordonnées. 
+On ne peut donc pas afficher la position actuelle de l'utilisateur
+(Tout le fonctionnement est codé, il suffit de trouver une solution pour convertir les coordonnées.. )
 
 Liste des fonctionnalités implémentées :
 [X] Utilisation de l'Api Preference
@@ -30,4 +39,4 @@ Liste des fonctionnalités implémentées :
 <br>
 [X] L'application de pattern (Reactive programming, singleton, MVC,...) Liste :
 
-MVC (Les fragments sont les Vues, l'activité est le Controller unique et les modèles sont dans le package Models) 
+MVC (Les fragments sont les Vues, l'activité est le Controller unique et les modèles sont nos différents services) 

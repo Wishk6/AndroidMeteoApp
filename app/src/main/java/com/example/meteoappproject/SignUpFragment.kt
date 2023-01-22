@@ -23,7 +23,6 @@ class SignUpFragment : Fragment() {
     private lateinit var password: EditText
     private lateinit var signUpButton: Button
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var userService: UserService
 
     companion object {
         private const val MY_PERMISSIONS_REQUEST_LOCATION = 100
@@ -33,12 +32,12 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
-
+        // check a l'init
+        checkLocationPermissions();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         email = view.findViewById(R.id.signup_email)
         password = view.findViewById(R.id.signup_password)
         signUpButton = view.findViewById(R.id.signup_button)
-        userService = UserService()
 
         signUpButton.setOnClickListener {
             val emailText = email.text.toString()
@@ -48,72 +47,71 @@ class SignUpFragment : Fragment() {
                 Toast.makeText(context, "Please enter all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else {
-            checkLocationPermissions(emailText,passwordText)
+                checkLocationPermissions(emailText, passwordText)
             }
         }
         return view
     }
 
-    private fun checkLocationPermissions( emailText: String, passwordText: String) {
+    private fun checkLocationPermissions(emailText: String = "", passwordText: String = "") {
 
         if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
+                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             // Permission is not granted
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
+                    requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
-                Toast.makeText(context, "Please, go to app settings to change permissions :)", Toast.LENGTH_SHORT)
-                    .show()
+                (activity as MainActivity).onSignUpFailed(" Si vous voulez créer un compte, allez dans les paramètres de l'application pour autoriser l'accès à la localisation")
             } else {
-                Toast.makeText(context, "Else check loca", Toast.LENGTH_SHORT).show()
                 ActivityCompat.requestPermissions(
                     requireActivity(),
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                     MY_PERMISSIONS_REQUEST_LOCATION
                 )
-                getLocation(emailText,passwordText)
+                return
             }
         } else {
             // Permission has already been granted
-            getLocation(emailText,passwordText)
+            getLocation(emailText, passwordText)
         }
     }
-
 
     private fun getLocation(emailText: String, passwordText: String) {
         if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
+                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Toast.makeText(context, "Permission denied, retry", Toast.LENGTH_SHORT).show()
             return
         } else {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location : Location? ->
-                    // si on récupère la localisation, on créer notre user, et on ajoute a notre collection firestore les données de localisation liés à l'utilisateur
-                    if (location != null) {
-                     createUser(emailText,passwordText,location)
-                    } else {
-                        Toast.makeText(context, "Error while trying to add user", Toast.LENGTH_SHORT).show()
-                    }
-                }.addOnFailureListener {
-                    Toast.makeText(context, "Failed to get location, please retry", Toast.LENGTH_SHORT).show()
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    // on passe location en paramètre pour pouvoir l'utiliser dans la fonction onLoginSuccess
+                    createUser(emailText, passwordText, location)
+                } else {
+                    (activity as MainActivity).onSignUpFailed("Impossible de récupérer votre localisation")
                 }
+            }.addOnFailureListener {
+                (activity as MainActivity).onSignUpFailed("Impossible de récupérer la localisation depuis le GPS")
+            }
         }
-
     }
 
-    fun createUser(emailText: String, passwordText: String, location: Location) {
+    // pas dans un service car utilisée que dans cette classe
+    private fun createUser(emailText: String, passwordText: String, location: Location) {
 
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailText, passwordText)
+            .addOnCompleteListener {
+                if (!it.isSuccessful) return@addOnCompleteListener
+                Toast.makeText(context, "Account created", Toast.LENGTH_SHORT).show()
+                (activity as MainActivity).onSignUpSuccess(location)
+            }.addOnFailureListener {
+                (activity as MainActivity).onSignUpFailed("Failed to create user: ${it.message}")
+            }
     }
 
 }
