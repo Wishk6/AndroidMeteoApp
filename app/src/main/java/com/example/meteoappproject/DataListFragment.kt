@@ -11,9 +11,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.example.meteoappproject.ThreadMeteo
 
 class DataListFragment : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -39,6 +39,7 @@ class DataListFragment : Fragment() {
                 }
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
@@ -47,36 +48,36 @@ class DataListFragment : Fragment() {
         return view
     }
 
-    fun searchUserData() {
+    private fun searchUserData() {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email
-        val meteoDataService = MeteoDataService()
-        // on get la liste des données météo de l'utilisateur
-        if (userEmail != null) {
-            meteoDataService.getUserMeteoData(userEmail) { meteoData ->
-                // log meteoData
-                Toast.makeText(context, "meteoData: $meteoData", Toast.LENGTH_SHORT).show()
-                for (data in meteoData) {
-                    val button = TextView(context)
-                    button.text = data.name
-                    button.setTextColor(Color.WHITE)
-                    button.textSize = 20F
-                    button.setOnClickListener {
-                        val detailledDataFragment = DetailledInformationFragment()
-                        val bundle = Bundle()
-                        bundle.putString("name", data.name)
-                        bundle.putString("country", data.country)
-                        bundle.putString("iconUrl", data.iconUrl)
-                        bundle.putString("maxTemp", data.maxTemp)
-                        bundle.putString("minTemp", data.minTemp)
-                        detailledDataFragment.arguments = bundle
-                        val transaction = activity?.supportFragmentManager?.beginTransaction()
-                        transaction?.replace(R.id.liste_meteo_fragment, detailledDataFragment)
-                        transaction?.commit()
-                    }
 
-                    view?.findViewById<LinearLayout>(R.id.liste_meteo_fragment)?.addView(button)
-                }
-            }
+        if (userEmail !== null) {
+            val getMeteoTask = ThreadMeteo(userEmail) { jsonObject ->
+                Toast.makeText(context, "meteoData: $jsonObject", Toast.LENGTH_SHORT).show()
+//                        for (data in jsonObject) {
+//                            val button = TextView(context)
+//                            button.text = data.name
+//                            button.setTextColor(Color.WHITE)
+//                            button.textSize = 20F
+//                            button.setOnClickListener {
+//                                val detailledDataFragment = DetailledInformationFragment()
+//                                val bundle = Bundle()
+//                                bundle.putString("name", data.name)
+//                                bundle.putString("country", data.country)
+//                                bundle.putString("iconUrl", data.iconUrl)
+//                                bundle.putString("maxTemp", data.maxTemp)
+//                                bundle.putString("minTemp", data.minTemp)
+//                                detailledDataFragment.arguments = bundle
+//                                val transaction = activity?.supportFragmentManager?.beginTransaction()
+//                                transaction?.replace(R.id.liste_meteo_fragment, detailledDataFragment)
+//                                transaction?.commit()
+//                            }
+//
+//                            view?.findViewById<LinearLayout>(R.id.liste_meteo_fragment)?.addView(button)
+//                        }
+                    }
+            getMeteoTask.execute()
+
         }
     }
 }
