@@ -4,9 +4,12 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import com.example.meteoappproject.models.MeteoDataModel
+import com.google.firebase.firestore.FieldValue
 import org.json.JSONObject
 import java.net.URL
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MeteoDataService : Service() {
 
@@ -53,7 +56,7 @@ class MeteoDataService : Service() {
         return jsonObject
     }
 
-    fun getDataFromCity(city: String, userEmail: String): MeteoDataModel {
+    private fun getDataFromCity(city: String, userEmail: String): MeteoDataModel {
         val json = getMeteoByName(city)
         val name: String = json?.getJSONObject("city_info")?.getString("name") ?: ""
         val country: String = json?.getJSONObject("city_info")?.getString("country") ?: ""
@@ -64,5 +67,32 @@ class MeteoDataService : Service() {
             country, iconUrl, maxTemp.toString(), minTemp.toString(), name, userEmail
         )
     }
+
+    fun getUserMeteoData(userEmail: String, callback: (ArrayList<MeteoDataModel>) -> Unit) {
+        val meteoDataList = ArrayList<MeteoDataModel>()
+        val db = FirebaseFirestore.getInstance()
+        Log.d("MeteoDataService", "getUserMeteoData: $db")
+        val query = db.collection("meteoData").whereEqualTo("userEmail", userEmail)
+        query.get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val data = document.toObject(MeteoDataModel::class.java)
+                meteoDataList.add(data)
+            }
+            callback(meteoDataList)
+        }.addOnFailureListener { exception ->
+            Log.w("MeteoDataService", "Error getting documents: ", exception)
+        }
+    }
+
+    fun addCityToUserList( city: String, email: String, callback: (Boolean) -> Unit) {
+        val meteoData = getDataFromCity(city, email)
+        val db = FirebaseFirestore.getInstance()
+        db.collection("meteoData").add(meteoData).addOnSuccessListener { documentReference ->
+            Log.d("Firestore", "DocumentSnapshot added with ID: ${documentReference.id}")
+        }.addOnFailureListener { e ->
+            Log.w("Firestore", "Error adding document", e)
+        }
+    }
+
 
 }

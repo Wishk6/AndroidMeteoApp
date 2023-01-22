@@ -1,13 +1,10 @@
 package com.example.meteoappproject
 
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.meteoappproject.models.MeteoDataModel
 import com.google.firebase.auth.FirebaseUser
 
 
@@ -32,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         // Faire un service pour les 'permissionsTcheck' dans un service pour pouvoir vérifier si l'utilisateur a toujours les permissions autorisés ou pas
         // faire un appel à MeteoDataService.getMeteoByCoord() pour récupérer la data de la position actuelle grâce a Location.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.login_sign_in_fragment, ListeMeteoFragment())
+        fragmentTransaction.replace(R.id.login_sign_in_fragment, DataListFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
@@ -78,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             builder.setTitle("Exit Meteo Radar")
             builder.setMessage("Are you sure you want to exit ?")
             builder.setPositiveButton("Yes") { _, _ ->
-                super.onBackPressed()
+                finish()
             }
             builder.setNegativeButton("No") { _, _ ->
             }
